@@ -11,11 +11,6 @@ ThinkPay is a next-generation FinTech application that leverages AI-powered virt
    ```
 
 
-3. **Run Development Server**:
-   ```bash
-   npm run dev
-   ```
-
 ## 🛠 Deployment Instructions
 
 ### 1. Firebase Project Setup

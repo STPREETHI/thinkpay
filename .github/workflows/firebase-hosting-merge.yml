@@ -1,33 +1,50 @@
 name: Firebase Hosting CI
 
+# Trigger deploy when code is pushed to main branch
 on:
   push:
     branches:
-      - main  # Deploy when code is pushed to the main branch
+      - main
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout the code
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4️⃣ Build the React app
       - name: Build the app
         run: npm run build
 
+      # 5️⃣ Verify that build folder exists
+      - name: Verify build folder
+        run: |
+          if [ ! -d "build" ]; then
+            echo "❌ Build folder does not exist!"
+            exit 1
+          else
+            echo "✅ Build folder exists"
+          fi
+
+      # 6️⃣ Deploy to Firebase Hosting
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"        # GitHub token, no change needed
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" # Add your service account JSON here as a secret
-          channelId: live                               # 'live' deploys to your production hosting channel
-          projectId: smartwalletai-92d10               # Replace with your actual Firebase project ID
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"                # GitHub token, safe
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" # Add your service account JSON as a secret
+          channelId: live                                        # live deploy channel
+          projectId: smartwalletai-92d10                        # Your Firebase project ID
+          firebaseToolsVersion: latest                            # Always use latest CLI

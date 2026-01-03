@@ -3,7 +3,7 @@ name: Firebase Hosting CI
 on:
   push:
     branches:
-      - main  # change if your branch is different
+      - main  # Deploy when code is pushed to the main branch
 
 jobs:
   build_and_deploy:
@@ -21,13 +21,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build the app
         run: npm run build
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
-          channelId: live
-          projectId: your-firebase-project-id
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"        # GitHub token, no change needed
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" # Add your service account JSON here as a secret
+          channelId: live                               # 'live' deploys to your production hosting channel
+          projectId: smartwalletai-92d10               # Replace with your actual Firebase project ID

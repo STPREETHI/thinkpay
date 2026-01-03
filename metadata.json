@@ -1,0 +1,8 @@
+{
+  "name": "ThinkPay",
+  "description": "A smart wallet application featuring AI-powered virtual vaults, spending intelligence, and Google Pay integration.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
